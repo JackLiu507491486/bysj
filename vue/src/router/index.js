@@ -7,8 +7,13 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: ()=> import('../views/HomeView.vue')
   },
+  {
+    path: '/element',
+    name: 'Element',
+    component: ()=> import('../views/ElementTest.vue')
+  }
 ]
 
 const router = new VueRouter({
