@@ -13,6 +13,10 @@ const routes = [
     path: '/element',
     name: 'Element',
     component: ()=> import('../views/ElementTest.vue')
+  },{
+    path: '/login',
+    name: 'login',
+    component: ()=> import('../views/Login.vue')
   }
 ]
 

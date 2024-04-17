@@ -1,10 +1,13 @@
 package com.example.springboot.UserService;
 
 import com.example.springboot.entity.User;
+import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.ServletException;
 import java.util.List;
 
 /**
@@ -42,5 +45,19 @@ public class UserService {
 
     public User selectByIdUser(Integer id) {
         return userMapper.selectById(id);
+    }
+
+    //验证用户账户合法
+    public User login(User user) {
+        //根据用户名查询数据库用户信息
+        User dbuser = userMapper.selectById(user.getId());
+        if(dbuser == null) {
+            //抛出异常
+            throw new ServiceException("用户名或密码错误");
+        }
+        if(!user.getPassword().equals(dbuser.getPassword())) {
+            throw new ServiceException("用户名或密码错误");
+        }
+        return dbuser;
     }
 }

@@ -1,6 +1,10 @@
 package com.example.springboot.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.example.springboot.UserService.UserService;
 import com.example.springboot.common.Result;
+import com.example.springboot.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -9,50 +13,25 @@ import org.springframework.web.bind.annotation.*;
  * 日期：2024/4/16 15:04
  */
 @RestController
-@RequestMapping("/web") //一级路由
 public class WebController {
 
+    @Autowired
+    UserService userService;
     /**
      * Get前端向后端获取数据
-     * @param name
      * @return
      */
-    @GetMapping("/hello")   //二级路由
-    public Result hello(String name){
-        return Result.success(name);
+    @GetMapping("/")   //二级路由
+    public Result hello(){
+        return Result.success("success");
     }
 
-    /**
-     * post 前端向后端传输数据，数据新增
-     * RequestBody 传输json参数
-     * 没有 传输 url参数
-     * @param obj
-     * @return
-     */
-    @PostMapping("/post")
-    public Result post(@RequestBody Obj obj){
-        return Result.success(obj);
-    }
-
-    /**
-     * Put 前端向后端传输数据 数据更改
-     * @param obj
-     * @return
-     */
-    @PutMapping("/put")
-    public Result put(@RequestBody Obj obj){
-        return Result.success(obj);
-    }
-
-    /**
-     * Delete 前端向后端传输数据 数据删除 根据id删除
-     * 事例：http://localhost:9090/web/delete/1
-     * 也可以传JSON数据   可以批量删除数据
-     */
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer id){
-        return Result.success(id);
-    }
-
-
+   @PostMapping("/login")
+    public Result login(@RequestBody User user){
+        if(StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())){
+            return Result.error("输入数据不合法");
+        }
+        user = userService.login(user);
+        return Result.success(user);
+   }
 }
