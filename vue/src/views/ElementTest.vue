@@ -38,7 +38,7 @@
 
         <el-row style="margin:20px">
             <el-col>
-                <el-input style="width: 200px" v-model="value0" placeholder="请输入内容" suffix-icon ="el-icon-user"></el-input>
+                <el-input style="width: 200px" v-model="value0" placeholder="请输入内容" suffix-icon ="el-icon-student"></el-input>
                 <el-input type="textarea" style="width: 200px"  v-model="value1"></el-input>
                 <el-input show-password style="width: 200px" v-model="value2" placeholder="密码框"></el-input>
                 <el-input clearable style="width: 200px" v-model="value3" placeholder="请输入内容"></el-input>

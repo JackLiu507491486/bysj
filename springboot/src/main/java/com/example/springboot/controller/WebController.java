@@ -1,14 +1,14 @@
 package com.example.springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.springboot.UserService.UserService;
+import com.example.springboot.UserService.StudentService;
 import com.example.springboot.common.Result;
-import com.example.springboot.entity.User;
+import com.example.springboot.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 功能：提供接口返回数据
+ * 功能：登录界面提供接口返回数据
  * 作者：jackLiu
  * 日期：2024/4/16 15:04
  */
@@ -16,22 +16,24 @@ import org.springframework.web.bind.annotation.*;
 public class WebController {
 
     @Autowired
-    UserService userService;
-    /**
-     * Get前端向后端获取数据
-     * @return
-     */
+    StudentService studentService;
+
     @GetMapping("/")   //二级路由
     public Result hello(){
         return Result.success("success");
     }
 
+    /**
+     *
+     * @param student 从前端传回的用户输入ID和密码
+     * @return
+     */
    @PostMapping("/login")
-    public Result login(@RequestBody User user){
-        if(StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())){
+    public Result login(@RequestBody Student student){
+        if(StrUtil.isBlank(student.getId()) || StrUtil.isBlank(student.getPassword())){
             return Result.error("输入数据不合法");
         }
-        user = userService.login(user);
-        return Result.success(user);
+        student = studentService.login(student);
+        return Result.success(student);
    }
 }

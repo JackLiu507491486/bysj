@@ -1,8 +1,8 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.UserService.UserService;
+import com.example.springboot.UserService.StudentService;
 import com.example.springboot.common.Result;
-import com.example.springboot.entity.User;
+import com.example.springboot.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +19,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
-public class UserController {
+public class StudentController {
 
     @Autowired
-    UserService userService;
+    StudentService studentService;
     /**
      * 新增用户信息
-     * @param user
+     * @param student
      * @return
      */
     @PostMapping("/add")
-    public Result add(@RequestBody User user) {
+    public Result add(@RequestBody Student student) {
         try{
-            userService.insertUser(user);
+            studentService.insertUser(student);
         }catch (Exception e){
             if(e instanceof DuplicateKeyException){
                 return Result.error("插入数据库错误");
@@ -44,13 +44,13 @@ public class UserController {
 
     /**
      * 修改用户信息
-     * @param user  用户信息
+     * @param student  用户信息
      * @return
      */
     @PutMapping("/update")
-    public Result update(@RequestBody User user) {
+    public Result update(@RequestBody Student student) {
         try{
-            userService.updateUser(user);
+            studentService.updateUser(student);
         }catch (Exception e){
             if(e instanceof DuplicateKeyException){
                 return Result.error("插入数据库错误");
@@ -69,8 +69,8 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer id) {
-        userService.deleteUser(id);
+    public Result delete(@PathVariable String id) {
+        studentService.deleteUser(id);
         return Result.success();
     }
 
@@ -80,8 +80,8 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/delete/batch")
-    public Result batchDelete(@RequestBody List<Integer> ids) {
-        userService.batchDeleteUser(ids);
+    public Result batchDelete(@RequestBody List<String> ids) {
+        studentService.batchDeleteUser(ids);
         return Result.success();
     }
 
@@ -91,8 +91,8 @@ public class UserController {
      */
     @GetMapping("/selectAll")
     public Result selectAll() {
-        List<User> users = userService.selectAllUser();
-        return Result.success(users);
+        List<Student> students = studentService.selectAllUser();
+        return Result.success(students);
     }
 
     /**
@@ -100,8 +100,8 @@ public class UserController {
      * @return 要返回数据
      */
     @GetMapping("/selectById/{id}")
-    public Result selectAll(@PathVariable Integer id) {
-        User user = userService.selectByIdUser(id);
-        return Result.success(user);
+    public Result selectAll(@PathVariable String id) {
+        Student student = studentService.selectByIdUser(id);
+        return Result.success(student);
     }
 }
