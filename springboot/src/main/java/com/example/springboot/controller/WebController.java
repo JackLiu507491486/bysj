@@ -36,4 +36,18 @@ public class WebController {
         student = studentService.login(student);
         return Result.success(student);
    }
+
+    /**
+     *
+     * @param student 从前端传回的用户输入ID和密码存入数据库中
+     * @return
+     */
+    @PostMapping("/register")
+    public Result register(@RequestBody Student student){
+        if(StrUtil.isBlank(student.getId()) || StrUtil.isBlank(student.getPassword())){
+            return Result.error("输入数据不合法");
+        }
+        studentService.register(student);
+        return Result.success(student);
+    }
 }

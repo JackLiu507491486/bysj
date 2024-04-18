@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color:aliceblue" >
+  <div style="height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color:antiquewhite" >
     <div style="display: flex; background-color: white; width: 50%;border-radius: 5px; overflow: hidden">
       <div style="flex: 1">
           <img src="@/assets/Login.png" alt="" style="width: 100%;height: 100%">
@@ -25,7 +25,7 @@
               <el-button type="primary" style="width: 100%;" @click="login">登  录</el-button>
             </el-form-item>
           <div style="display: flex">
-            <div style="flex: 1">还没有账号？请<span style="color: deepskyblue;cursor: pointer">注册</span></div>
+            <div style="flex: 1">还没有账号？请<span @click="$router.push('/register')" style="color: deepskyblue;cursor: pointer">注册</span></div>
             <div style="flex: 1; text-align: right"><span style="color: red; cursor: pointer; ">忘记密码？</span></div>
           </div>
         </el-form>

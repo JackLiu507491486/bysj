@@ -51,12 +51,28 @@ public class StudentService {
         Student dbstudent = studentMapper.selectById(student.getId());
         if(dbstudent == null) {
             //抛出异常，数据库中没有找到该用户
-            throw new ServiceException("用户名或密码错误");
+            throw new ServiceException("账号或密码错误");
         }
         if(!student.getPassword().equals(dbstudent.getPassword())) {
             //抛出异常，用户和密码不匹配
-            throw new ServiceException("用户名或密码错误");
+            throw new ServiceException("账号或密码错误");
         }
         return dbstudent;
+    }
+
+    public void register(Student student) {
+        //根据用户名查询数据库用户信息
+        Student dbstudent = studentMapper.selectById(student.getId());
+        if(dbstudent != null) {
+            throw new ServiceException("用户已存在");
+        }
+        if (student.getId().length()<6||student.getId().length()>20) {
+            throw new ServiceException("账号长度应该在6-20之间");
+        }
+        if (student.getPassword().length()<6||student.getPassword().length()>20) {
+            throw new ServiceException("密码长度应该在6-20之间");
+        }
+        student.setName("未知用户");
+        studentMapper.insert(student);
     }
 }
