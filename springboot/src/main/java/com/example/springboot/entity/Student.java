@@ -19,4 +19,6 @@ public class Student {
     private String email;
     private String address;
     private String avatar;
+
+    private String token;
 }

@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.springboot.UserService.StudentService;
+import com.example.springboot.common.AuthAccess;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class WebController {
     @Autowired
     StudentService studentService;
 
+    @AuthAccess
     @GetMapping("/")   //二级路由
     public Result hello(){
         return Result.success("success");
@@ -42,6 +44,7 @@ public class WebController {
      * @param student 从前端传回的用户输入ID和密码存入数据库中
      * @return
      */
+    @AuthAccess
     @PostMapping("/register")
     public Result register(@RequestBody Student student){
         if(StrUtil.isBlank(student.getId()) || StrUtil.isBlank(student.getPassword())){

@@ -3,6 +3,7 @@ package com.example.springboot.UserService;
 import com.example.springboot.entity.Student;
 import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.StudentMapper;
+import com.example.springboot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,9 @@ public class StudentService {
             //抛出异常，用户和密码不匹配
             throw new ServiceException("账号或密码错误");
         }
+        //生成token
+        String token = TokenUtils.genToken(dbstudent.getId(), dbstudent.getPassword());
+        dbstudent.setToken(token);
         return dbstudent;
     }
 

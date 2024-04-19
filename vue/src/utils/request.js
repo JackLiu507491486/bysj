@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from "@/router";
 //创建可一个新的axios对象
 const request = axios.create({
     baseURL: 'http://localhost:9090',//后端的接口地址 ip:port
@@ -8,6 +9,8 @@ const request = axios.create({
 request.interceptors.request.use(config => {
         // 在发送请求之前做些什么
         config.headers['Content-Type'] = 'application/json;charset=utf-8';
+        let user = JSON.parse(localStorage.getItem("NowUser") || '{}');
+        config.headers['token'] = user.token;
         return config;
     },
     error => {
@@ -25,6 +28,9 @@ request.interceptors.response.use(
 
         if(typeof res === 'string'){
             res = res ? JSON.parse(res) :res
+        }
+        if (res.code === '401'){
+            router.push('/login');
         }
         return res;
     },
