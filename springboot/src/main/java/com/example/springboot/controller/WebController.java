@@ -1,6 +1,7 @@
 package com.example.springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.example.springboot.UserService.ManagerService;
 import com.example.springboot.UserService.StudentService;
 import com.example.springboot.common.AuthAccess;
 import com.example.springboot.common.Result;
@@ -19,7 +20,8 @@ public class WebController {
 
     @Autowired
     StudentService studentService;
-
+    @Autowired
+    ManagerService managerService;
 
     @AuthAccess
     @GetMapping("/")   //二级路由
@@ -40,6 +42,21 @@ public class WebController {
         student = studentService.login(student);
         return Result.success(student);
    }
+
+    /**
+     *
+     * @param manager 从前端传回的管理员输入ID和密码
+     * @return
+     */
+    @AuthAccess
+    @PostMapping("/loginManager")
+    public Result loginStudent(@RequestBody Manager manager){
+        if(StrUtil.isBlank(manager.getId()) || StrUtil.isBlank(manager.getPassword())){
+            return Result.error("输入数据不合法");
+        }
+        manager = managerService.login(manager);
+        return Result.success(manager);
+    }
 
 
     /**

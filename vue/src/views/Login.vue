@@ -7,6 +7,12 @@
       <div style="flex: 1;display: flex;align-items: center; justify-content: center">
         <el-form :model="student" :rules="rules" style="width: 75%" ref="loginRef">
           <div style="font-size: 20px; font-weight: bold; text-align: center;margin-bottom: 20px">欢迎登录编程教学系统</div>
+          <div style="margin-bottom:20px;display: flex;align-items: center; justify-content: center">
+            <el-radio-group v-model="radioTreaty" @change="agreeChange">
+              <el-radio label="1">我是学生</el-radio>
+              <el-radio label="2">我是管理员</el-radio>
+            </el-radio-group>
+          </div>
           <el-form-item prop="id">
             <el-input size="medium" prefix-icon="el-icon-user" placeholder="请输入账号" v-model="student.id"></el-input>
           </el-form-item>
@@ -36,9 +42,15 @@
 
 <script>
 import ValidCode from "@/conponents/ValidCode.vue";
+import manager from "@/views/Manager.vue";
 
 export default {
   name: "Login",
+  computed: {
+    manager() {
+      return manager
+    }
+  },
   components: {
     ValidCode
   },
@@ -55,6 +67,7 @@ export default {
       }
     };
     return{
+      radioTreaty: this.$route.path === '/login' ? '1' : '2',
       student: {
          code:'',
          id:'',
@@ -75,23 +88,31 @@ export default {
     }
   },
   methods: {
+    agreeChange:function(){
+      if(this.radioTreaty === '1')
+        this.$router.push('/login')
+      else this.$router.push('/loginManager')
+    },
     login(){
       this.$refs['loginRef'].validate((valid) => {
           if(valid) {
             //验证通过，发送请求
-            this.$request.post('/login',this.student).then(
-                res=>{
-                  if (res.code === '200'){
-                    this.$router.push('/');
-                    this.$message.success("登录成功");
-                    localStorage.setItem("NowUser",JSON.stringify(res.data)); //存储正在运行的用户数据
-                  }else{
-                    this.$message.error(res.msg);
-                    this.$refs.validcode.refreshCode();
-                  }
-                })
+              let path = this.radioTreaty === '1' ? '/login' : '/loginManager';
+              this.$request.post(path,this.student).then(
+                  res=>{
+                    console.log(this.student)
+                    let type = this.radioTreaty === '1' ? '/home' : '/s';
+                    if (res.code === '200'){
+                      this.$router.push(type);
+                      this.$message.success("登录成功");
+                      localStorage.setItem("NowUser",JSON.stringify(res.data)); //存储正在运行的用户数据
+                    }else{
+                      this.$message.error(res.msg);
+                      this.$refs.validcode.refreshCode();
+                    }
+                  })
           }else this.$refs.validcode.refreshCode();
-        })
+      })
 
     },
     getCode(code){

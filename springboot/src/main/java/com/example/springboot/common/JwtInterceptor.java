@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 
 /**
- * 功能：JWT拦截器
+ * 功能：JWT学生端拦截器
  * 作者：jackLiu
  * 日期：2024/4/19 上午7:16
  */
