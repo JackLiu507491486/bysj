@@ -13,7 +13,7 @@ public interface StudentMapper {
             "values (#{id}, #{password}, #{name}, #{phone}, #{email}, #{address}, #{avatar})")
     void insert(Student student);
 
-    @Update("update student set username = #{username} , password = #{password} ," +
+    @Update("update student set id = #{id} , password = #{password} ," +
             "name = #{name} ,phone = #{phone} , email = #{email} , address = #{address} , avatar = #{avatar}" +
             "where id = #{id}")
     void update(Student student);
