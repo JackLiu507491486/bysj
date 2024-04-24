@@ -101,11 +101,12 @@ export default {
               this.$request.post(path,this.student).then(
                   res=>{
                     console.log(this.student)
-                    let type = this.radioTreaty === '1' ? '/home' : '/s';
+                    let type = this.radioTreaty === '1' ? '/home' : '/admin';
                     if (res.code === '200'){
                       this.$router.push(type);
                       this.$message.success("登录成功");
-                      localStorage.setItem("NowUser",JSON.stringify(res.data)); //存储正在运行的用户数据
+                      localStorage.setItem("NowUser",JSON.stringify(res.data));
+                      localStorage.setItem("NowUserType",this.radioTreaty);//存储正在运行的用户数据
                     }else{
                       this.$message.error(res.msg);
                       this.$refs.validcode.refreshCode();
