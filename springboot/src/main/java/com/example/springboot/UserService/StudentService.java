@@ -77,6 +77,7 @@ public class StudentService {
             throw new ServiceException("密码长度应该在6-20之间");
         }
         student.setName("未知用户");
+        student.setAvatar("http://localhost:9090/file/download/logo.jpg");
         studentMapper.insert(student);
     }
 }

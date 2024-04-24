@@ -42,13 +42,13 @@
 
 <script>
 import ValidCode from "@/conponents/ValidCode.vue";
-import manager from "@/views/Manager.vue";
+import students from "@/views/Student.vue";
 
 export default {
   name: "Login",
   computed: {
-    manager() {
-      return manager
+    student() {
+      return students
     }
   },
   components: {
@@ -100,8 +100,7 @@ export default {
               let path = this.radioTreaty === '1' ? '/login' : '/loginManager';
               this.$request.post(path,this.student).then(
                   res=>{
-                    console.log(this.student)
-                    let type = this.radioTreaty === '1' ? '/home' : '/admin';
+                    let type = this.radioTreaty === '1' ? '/student' : '/admin';
                     if (res.code === '200'){
                       this.$router.push(type);
                       this.$message.success("登录成功");
