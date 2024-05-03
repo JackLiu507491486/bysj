@@ -3,7 +3,7 @@ import router from "@/router";
 //创建可一个新的axios对象
 const request = axios.create({
     baseURL: 'http://localhost:9090',//后端的接口地址 ip:port
-    timeout: 30000
+    timeout: 60000
 })
 // 请求拦截器
 request.interceptors.request.use(config => {

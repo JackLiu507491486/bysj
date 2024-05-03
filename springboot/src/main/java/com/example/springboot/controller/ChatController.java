@@ -48,6 +48,30 @@ public class ChatController {
 
 
 
+    /**
+     * 查询全部用户信息
+     * @return 要返回数据
+     */
+    @AuthAccess
+    @GetMapping("/getMessage/{ID}")
+    public Result selectByID(@PathVariable String ID) {
+        List<ChatMessage> chatMessageList = chatService.getChatList(ID);
+        return Result.success(chatMessageList);
+    }
+
+    /**
+     * 删除id用户的记录
+     * @param id  用户id
+     * @return
+     */
+    @AuthAccess
+    @DeleteMapping("/deleteChat/{id}")
+    public Result deleteByID(@PathVariable String id) {
+        chatService.deleteChat(id);
+        return Result.success();
+    }
+
+
     @AuthAccess
     @PostMapping("/chatID")
     public Result getChat(@org.springframework.web.bind.annotation.RequestBody String ID){
@@ -73,11 +97,14 @@ public class ChatController {
         //先获取令牌然后才能访问api
         if (wenXinConfig.flushAccessToken() != null) {
             HashMap<String, String> user = new HashMap<>();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             user.put("role","user");
             user.put("content",question);
             messages.add(user);
             chatMessage.setRole("user");
             chatMessage.setMessage(question);
+            chatMessage.setTime(sdf.format(new Date()));
+            chatService.insertChat(chatMessage);
             String requestJson = constructRequestJson(1,0.95,0.8,1.0,false,messages);
             RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestJson);
             Request request = new Request.Builder()
@@ -89,9 +116,6 @@ public class ChatController {
                     .readTimeout(60000, TimeUnit.MILLISECONDS).build();
             try {
                 responseJson = HTTP_CLIENT.newCall(request).execute().body().string();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                chatMessage.setTime(sdf.format(new Date()));
-                chatService.insertChat(chatMessage);
                 //将回复的内容转为一个JSONObject
                 JSONObject responseObject = JSON.parseObject(responseJson);
                 //将回复的内容添加到消息中
@@ -103,7 +127,6 @@ public class ChatController {
                 chatMessage.setTime(sdf.format(new Date()));
                 chatService.insertChat(chatMessage);
                 messages.add(assistant);
-                System.out.printf(messages.toString());
             } catch (IOException e) {
                 return Result.error("网络有问题，请稍后重试");
             }

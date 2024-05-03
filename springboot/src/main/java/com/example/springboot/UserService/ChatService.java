@@ -5,6 +5,8 @@ import com.example.springboot.mapper.ChatMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 功能：聊天服务
  * 作者：jackLiu
@@ -17,6 +19,10 @@ public class ChatService {
 
     public void insertChat(ChatMessage chatMessage){
         chatMapper.insert(chatMessage);
+    }
+
+    public List<ChatMessage> getChatList(String id) {
+        return chatMapper.selectByID(id);
     }
 
     public void deleteChat(String id){
