@@ -80,4 +80,16 @@ public class StudentService {
         student.setAvatar("http://localhost:9090/file/download/logo.jpg");
         studentMapper.insert(student);
     }
+
+    public void resetPassword(Student student) {
+        Student dbStudent = studentMapper.selectById(student.getId());
+        if(dbStudent == null) {
+            throw new ServiceException("用户不存在");
+        }
+        if (!dbStudent.getName().equals(student.getName()) || !dbStudent.getEmail().equals(student.getEmail()) || !dbStudent.getPhone().equals(student.getPhone())) {
+            throw new ServiceException("验证错误");
+        }
+        dbStudent.setPassword("123456");
+        studentMapper.update(dbStudent);
+    }
 }

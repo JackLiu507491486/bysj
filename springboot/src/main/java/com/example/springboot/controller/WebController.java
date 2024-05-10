@@ -73,4 +73,17 @@ public class WebController {
         studentService.register(student);
         return Result.success(student);
     }
+
+
+    /**
+     * 重构密码
+     * @param student 从前端传回的用户输入ID和密码存入数据库中
+     * @return
+     */
+    @AuthAccess
+    @PutMapping("/forget")
+    public Result forget(@RequestBody Student student){
+        studentService.resetPassword(student);
+        return Result.success();
+    }
 }

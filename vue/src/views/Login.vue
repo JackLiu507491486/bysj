@@ -31,12 +31,36 @@
               <el-button type="primary" style="width: 100%;" @click="login">登  录</el-button>
             </el-form-item>
           <div style="display: flex">
-            <div style="flex: 1">还没有账号？请<span style="color: deepskyblue;cursor: pointer">注册</span></div>
-            <div style="flex: 1; text-align: right"><span style="color: red; cursor: pointer; ">忘记密码？</span></div>
+            <div style="flex: 1">还没有账号？请<span style="color: deepskyblue;cursor: pointer" @click="$router.push('/register')">注册</span></div>
+            <div style="flex: 1; text-align: right"><span style="color: red; cursor: pointer;" @click="handleForgetForm">忘记密码？</span></div>
           </div>
         </el-form>
       </div>
     </div>
+
+
+    <el-dialog title="忘记密码" :visible.sync="forgetPassword" width="30%">
+      <el-form :model="forgetForm" label-width="80px" style="padding-right: 20px">
+        <el-form-item label="学号" >
+          <el-input v-model="forgetForm.id" autocomplete="off" placeholder="请输入学号"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" >
+          <el-input v-model="forgetForm.name" autocomplete="off" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" >
+          <el-input v-model="forgetForm.phone" autocomplete="off" placeholder="请输入手机号"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" >
+          <el-input v-model="forgetForm.email" autocomplete="off" placeholder="请输入邮箱"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="forgetPassword = false">取 消</el-button>
+        <el-button type="primary" @click="resetPassword">确 定</el-button>
+      </div>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -67,6 +91,8 @@ export default {
       }
     };
     return{
+      forgetForm:{}, //忘记密码表单数据
+      forgetPassword: false,
       radioTreaty: this.$route.path === '/login' ? '1' : '2',
       student: {
          code:'',
@@ -88,6 +114,22 @@ export default {
     }
   },
   methods: {
+    //初始化表单
+    handleForgetForm(){
+      this.forgetForm = {};
+      this.forgetPassword = true;
+    },
+    resetPassword(){
+      this.$request.put('forget',this.forgetForm).then(res =>{
+        if (res.code === '200'){
+          this.$message.success("您的密码已经重置为123456");
+          this.forgetForm = {};
+          this.forgetPassword = false;
+        }else{
+          this.$message.error(res.msg);
+        }
+      })
+    },
     agreeChange:function(){
       if(this.radioTreaty === '1')
         this.$router.push('/login')
