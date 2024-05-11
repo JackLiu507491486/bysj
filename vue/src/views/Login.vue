@@ -142,7 +142,7 @@ export default {
               let path = this.radioTreaty === '1' ? '/login' : '/loginManager';
               this.$request.post(path,this.student).then(
                   res=>{
-                    let type = this.radioTreaty === '1' ? '/student' : '/admin';
+                    let type = this.radioTreaty === '1' ? '/student' : '/manger';
                     if (res.code === '200'){
                       this.$router.push(type);
                       this.$message.success("登录成功");

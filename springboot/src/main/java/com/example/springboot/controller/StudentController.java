@@ -1,5 +1,8 @@
 package com.example.springboot.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.UserService.StudentService;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Student;
@@ -31,7 +34,7 @@ public class StudentController {
     @PostMapping("/add")
     public Result add(@RequestBody Student student) {
         try{
-            studentService.insertUser(student);
+            studentService.save(student);
         }catch (Exception e){
             if(e instanceof DuplicateKeyException){
                 return Result.error("插入数据库错误");
@@ -50,7 +53,7 @@ public class StudentController {
     @PutMapping("/update")
     public Result update(@RequestBody Student student) {
         try{
-            studentService.updateUser(student);
+            studentService.updateById(student);
         }catch (Exception e){
             if(e instanceof DuplicateKeyException){
                 return Result.error("插入数据库错误");
@@ -70,7 +73,7 @@ public class StudentController {
      */
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable String id) {
-        studentService.deleteUser(id);
+        studentService.removeById(id);
         return Result.success();
     }
 
@@ -81,7 +84,7 @@ public class StudentController {
      */
     @DeleteMapping("/delete/batch")
     public Result batchDelete(@RequestBody List<String> ids) {
-        studentService.batchDeleteUser(ids);
+        studentService.removeBatchByIds(ids);
         return Result.success();
     }
 
@@ -91,7 +94,8 @@ public class StudentController {
      */
     @GetMapping("/selectAll")
     public Result selectAll() {
-        List<Student> students = studentService.selectAllUser();
+                                                    //select * from student order by id asc
+        List<Student> students = studentService.list(new QueryWrapper<Student>().orderByAsc("id"));
         return Result.success(students);
     }
 
@@ -101,7 +105,19 @@ public class StudentController {
      */
     @GetMapping("/selectById/{id}")
     public Result selectAll(@PathVariable String id) {
-        Student student = studentService.selectByIdUser(id);
+        Student student = studentService.getById(id);
         return Result.success(student);
     }
+
+
+    @GetMapping("/selectByPage")
+    public Result selectByPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String id,@RequestParam String name) {
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<Student>().orderByAsc("id");
+        //select * from user where id like '%#{id}%' and name like '%#{name}%'
+        queryWrapper.like(StrUtil.isNotBlank(id),"id", id);
+        queryWrapper.like(StrUtil.isNotBlank(name),"name", name);
+        Page<Student> page = studentService.page(new Page<>(pageNum, pageSize), queryWrapper);
+        return Result.success(page);
+    }
+
 }

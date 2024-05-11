@@ -1,5 +1,9 @@
 package com.example.springboot.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +15,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@TableName("student")
 public class Student {
     private String id;
     private String name;
@@ -20,5 +25,6 @@ public class Student {
     private String address;
     private String avatar;
 
+    @TableField(exist = false)
     private String token;
 }

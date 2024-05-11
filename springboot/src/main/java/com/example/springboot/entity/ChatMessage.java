@@ -1,5 +1,6 @@
 package com.example.springboot.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * 日期：2024/5/1 上午11:27
  */
 @Data
+@TableName("chat")
 public class ChatMessage {
     private String id;
     private String role;
