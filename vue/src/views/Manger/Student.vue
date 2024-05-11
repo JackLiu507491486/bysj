@@ -240,21 +240,29 @@ export default {
         }
       })
     },
-    load(pageNum){
-      if(pageNum){
+    load(pageNum) {
+      if (pageNum) {
         this.pageNum = pageNum;
       }
-      this.$request.get('user/selectByPage',{
-        params:{
-          pageNum:this.pageNum,
-          pageSize:this.pageSize,
-          id:this.id,
-          name:this.name
+      this.$request.get('user/selectByPage', {
+        params: {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          id: this.id,
+          name: this.name
         }
-      }).then(res =>{
-        this.tableData = res.data.records;
-        this.total = res.data.total;
-      })
+      }).then(res => {
+        if (res.data && res.data.records) {
+          this.tableData = res.data.records;
+          this.total = res.data.total;
+        } else {
+          // 处理数据为空的情况，比如给出提示
+          this.$message.error("数据为空");
+        }
+      }).catch(error => {
+        // 处理请求失败的情况，比如给出提示
+        this.$message.error("数据请求失败：" + error.message);
+      });
     },
     handleCurrentChange(pageNum){
         this.load(pageNum);

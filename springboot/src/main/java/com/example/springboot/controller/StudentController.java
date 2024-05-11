@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.UserService.StudentService;
+import com.example.springboot.common.AuthAccess;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class StudentController {
      * @param student
      * @return
      */
+    @AuthAccess
     @PostMapping("/add")
     public Result add(@RequestBody Student student) {
         try{
@@ -50,6 +52,7 @@ public class StudentController {
      * @param student  用户信息
      * @return
      */
+    @AuthAccess
     @PutMapping("/update")
     public Result update(@RequestBody Student student) {
         try{
@@ -71,6 +74,7 @@ public class StudentController {
      * @param id  用户id
      * @return
      */
+    @AuthAccess
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable String id) {
         studentService.removeById(id);
@@ -82,6 +86,7 @@ public class StudentController {
      * @param ids  用户们id
      * @return
      */
+    @AuthAccess
     @DeleteMapping("/delete/batch")
     public Result batchDelete(@RequestBody List<String> ids) {
         studentService.removeBatchByIds(ids);
@@ -92,6 +97,7 @@ public class StudentController {
      * 查询全部用户信息
      * @return 要返回数据
      */
+    @AuthAccess
     @GetMapping("/selectAll")
     public Result selectAll() {
                                                     //select * from student order by id asc
@@ -103,6 +109,7 @@ public class StudentController {
      * 查询id对应用户信息
      * @return 要返回数据
      */
+    @AuthAccess
     @GetMapping("/selectById/{id}")
     public Result selectAll(@PathVariable String id) {
         Student student = studentService.getById(id);
@@ -110,6 +117,7 @@ public class StudentController {
     }
 
 
+    @AuthAccess
     @GetMapping("/selectByPage")
     public Result selectByPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String id,@RequestParam String name) {
         QueryWrapper<Student> queryWrapper = new QueryWrapper<Student>().orderByAsc("id");
