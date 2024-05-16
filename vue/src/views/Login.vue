@@ -41,8 +41,14 @@
 
     <el-dialog title="忘记密码" :visible.sync="forgetPassword" width="30%">
       <el-form :model="forgetForm" label-width="80px" style="padding-right: 20px">
-        <el-form-item label="学号" >
-          <el-input v-model="forgetForm.id" autocomplete="off" placeholder="请输入学号"></el-input>
+        <div style="margin-bottom:20px;display: flex;align-items: center; justify-content: center">
+          <el-radio-group v-model="forgetType">
+            <el-radio label="1">我是学生</el-radio>
+            <el-radio label="2">我是教师</el-radio>
+          </el-radio-group>
+        </div>
+        <el-form-item label="账号" >
+          <el-input v-model="forgetForm.id" autocomplete="off" placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item label="姓名" >
           <el-input v-model="forgetForm.name" autocomplete="off" placeholder="请输入姓名"></el-input>
@@ -93,6 +99,7 @@ export default {
     return{
       forgetForm:{}, //忘记密码表单数据
       forgetPassword: false,
+      forgetType: '1',
       radioTreaty: this.$route.path === '/login' ? '1' : '2',
       student: {
          code:'',
@@ -120,7 +127,8 @@ export default {
       this.forgetPassword = true;
     },
     resetPassword(){
-      this.$request.put('forget',this.forgetForm).then(res =>{
+      let url = this.forgetType === '1' ? 'forget' : "forgetManager"
+      this.$request.put(url,this.forgetForm).then(res =>{
         if (res.code === '200'){
           this.$message.success("您的密码已经重置为123456");
           this.forgetForm = {};

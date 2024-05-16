@@ -100,4 +100,16 @@ public class WebController {
         studentService.resetPassword(student);
         return Result.success();
     }
+
+    /**
+     * 重构密码
+     * @param manager 从前端传回的用户输入ID和密码存入数据库中
+     * @return
+     */
+    @AuthAccess
+    @PutMapping("/forgetManager")
+    public Result forgetManager(@RequestBody Manager manager){
+        managerService.resetPassword(manager);
+        return Result.success();
+    }
 }

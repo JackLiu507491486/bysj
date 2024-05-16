@@ -82,10 +82,20 @@ public class StudentService extends ServiceImpl<StudentMapper, Student> {
         if(dbStudent == null) {
             throw new ServiceException("用户不存在");
         }
-        if (!dbStudent.getName().equals(student.getName()) || !dbStudent.getEmail().equals(student.getEmail()) || !dbStudent.getPhone().equals(student.getPhone())) {
+        if ((student.getName() == null && dbStudent.getName() == null) ||
+                (student.getName() != null && dbStudent.getName() != null && student.getName().equals(dbStudent.getName())) ||
+                (student.getEmail() == null && dbStudent.getEmail() == null) ||
+                (student.getEmail() != null && dbStudent.getEmail() != null && student.getEmail().equals(dbStudent.getEmail())) ||
+                (student.getPhone() == null && dbStudent.getPhone() == null) ||
+                (student.getPhone() != null && dbStudent.getPhone() != null && student.getPhone().equals(dbStudent.getPhone()))) {
+            // 当属性为空或者属性相等时，验证成功
+            dbStudent.setPassword("123456");
+            updateById(dbStudent);
+        } else {
+            // 其他情况，验证失败
             throw new ServiceException("验证错误");
         }
-        dbStudent.setPassword("123456");
-        updateById(dbStudent);
+
+
     }
 }
