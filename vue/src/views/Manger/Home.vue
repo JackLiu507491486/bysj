@@ -17,7 +17,6 @@
             <p style="margin-top: 10px"><strong>姓名：</strong>{{ loginUser.name }}</p>
             <p style="margin-top: 10px"><strong>电话：</strong>{{ loginUser.phone }}</p>
             <p style="margin-top: 10px"><strong>邮箱：</strong>{{ loginUser.email }}</p>
-            <p style="margin-top: 10px"><strong>地址：</strong>{{ loginUser.address }}</p>
           </el-form>
         </el-card>
       </div>

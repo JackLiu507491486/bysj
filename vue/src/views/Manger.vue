@@ -15,6 +15,10 @@
             <i class="el-icon-s-home"></i>
             <span slot="title">系统首页</span>
           </el-menu-item>
+          <el-menu-item index="/manger/search">
+            <i class="el-icon-s-opportunity"></i>
+            <span slot="title">学生学习情况</span>
+          </el-menu-item>
           <el-submenu index="info">
             <template slot="title">
               <i class="el-icon-menu"></i>

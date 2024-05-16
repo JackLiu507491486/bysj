@@ -58,26 +58,6 @@ export default {
           <p style="margin-top: 10px"><strong>地址：</strong>{{ loginUser.address }}</p>
         </el-form>
       </el-card>
-      <el-card style="width: 50%">
-        <div style="display: flex;margin-bottom: 30px; align-items: center;justify-content: center" class="clock"><span style="font-size: 20px">现在是{{time}} {{ currentTime }}，快去学习吧！！</span></div>
-        <div style="flex: 1">
-          <el-card style="width: 100%">
-            <el-calendar :first-day-of-week="7">
-              <template slot="dateCell" slot-scope="{ data }">
-                <p>{{ data.day.split("-").slice(2).join("-") }}<br/></p>
-                <div
-                    v-for="(item, index) in calendarData"
-                    :key="index"
-                >
-                  <div v-if="data.day == item.day">
-                    {{item.status}}
-                  </div>
-                </div>
-              </template>
-            </el-calendar>
-          </el-card>
-        </div>
-      </el-card>
     </div>
   </div>
 </template>

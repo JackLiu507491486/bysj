@@ -26,6 +26,10 @@ public class ChatService {
         return chatMapper.selectByID(id);
     }
 
+    public List<ChatMessage> getChatListTeacher(String id) {
+        return chatMapper.selectByIDTeacher(id);
+    }
+
     public void deleteChat(String id){
         chatMapper.delete(id);
     }

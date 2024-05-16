@@ -60,6 +60,17 @@ public class ChatController {
     }
 
     /**
+     * 查询全部用户信息
+     * @return 要返回数据
+     */
+    @AuthAccess
+    @GetMapping("/getMessageTeacher/{ID}")
+    public Result selectMessage(@PathVariable String ID) {
+        List<ChatMessage> chatMessageList = chatService.getChatListTeacher(ID);
+        return Result.success(chatMessageList);
+    }
+
+    /**
      * 删除id用户的记录
      * @param id  用户id
      * @return

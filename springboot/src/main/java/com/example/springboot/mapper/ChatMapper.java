@@ -21,6 +21,10 @@ public interface ChatMapper {
     @Select("select * from chat where id = #{id}")
     List<ChatMessage> selectByID(String id);
 
+    @Select("select * from chatteacher where id = #{id}")
+    List<ChatMessage> selectByIDTeacher(String id);
+
+
     @Delete("delete from chat where id = #{id}")
     void delete(String id);
 }
