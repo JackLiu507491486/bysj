@@ -21,8 +21,9 @@
               <span>信息管理</span>
             </template>
             <el-menu-item index="/manger/student">管理学生信息</el-menu-item>
-            <el-menu-item index="/manger/my">修改个人密码</el-menu-item>
-            <el-menu-item index="/manger/add">添加管理员</el-menu-item>
+            <el-menu-item index="/manger/my">修改个人信息</el-menu-item>
+            <el-menu-item index="/manger/password">修改个人密码</el-menu-item>
+            <el-menu-item index="/manger/add">添加教师账号</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -38,13 +39,13 @@
           <div style="flex: 1;widows: 0; display: flex; align-items: center; justify-content: flex-end">
             <el-dropdown>
               <div style="display: flex; align-items:center">
-                <img src="http://localhost:9090/file/download/管理员.jpg" alt=""
+                <img :src="loginUser.avatar" alt=""
                      style="width: 40px;height: 40px; border-radius: 50%;overflow: hidden;">
-                <span style="margin-left: 10px;font-size: 18px">管理员</span>
+                <span style="margin-left: 10px;font-size: 18px">{{ loginUser.name }}</span>
               </div>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item  @click.native="$router.push('/manger/add')">添加管理员</el-dropdown-item>
-                <el-dropdown-item  @click.native="$router.push('/manger/my')">修改密码</el-dropdown-item>
+                <el-dropdown-item  @click.native="$router.push('/manger/my')">修改个人信息</el-dropdown-item>
+                <el-dropdown-item  @click.native="$router.push('/manger/password')">修改密码</el-dropdown-item>
                 <el-dropdown-item @click.native="logout">退出系统</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>

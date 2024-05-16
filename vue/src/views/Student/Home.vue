@@ -44,26 +44,41 @@ export default {
                {{loginUser.name}}同学欢迎使用该系统
               </span>
     </div>
-    <el-card style="width: 100%">
-      <div style="display: flex;margin-bottom: 30px; align-items: center;justify-content: center" class="clock"><span style="font-size: 20px">现在是{{time}} {{ currentTime }}，快去学习吧！！</span></div>
-      <div style="flex: 1">
-        <el-card style="width: 100%">
-          <el-calendar :first-day-of-week="7">
-            <template slot="dateCell" slot-scope="{ data }">
-              <p>{{ data.day.split("-").slice(2).join("-") }}<br/></p>
-              <div
-                  v-for="(item, index) in calendarData"
-                  :key="index"
-              >
-                <div v-if="data.day == item.day">
-                  {{item.status}}
+    <div style="display:flex;">
+      <el-card style="width: 45%; margin-right: 20px; height: 50%">
+        <el-form :model="user" label-width="80px" style="padding-right: 30px">
+          <div style="margin: 15px; text-align: center">
+            <img :src="loginUser.avatar" alt=""
+                 style="width: 100px;height: 100px; border-radius: 50%;overflow: hidden;">
+          </div>
+          <p style="margin-top: 10px"><strong>学号：</strong>{{ loginUser.id }}</p>
+          <p style="margin-top: 10px"><strong>姓名：</strong>{{ loginUser.name }}</p>
+          <p style="margin-top: 10px"><strong>电话：</strong>{{ loginUser.phone }}</p>
+          <p style="margin-top: 10px"><strong>邮箱：</strong>{{ loginUser.email }}</p>
+          <p style="margin-top: 10px"><strong>地址：</strong>{{ loginUser.address }}</p>
+        </el-form>
+      </el-card>
+      <el-card style="width: 50%">
+        <div style="display: flex;margin-bottom: 30px; align-items: center;justify-content: center" class="clock"><span style="font-size: 20px">现在是{{time}} {{ currentTime }}，快去学习吧！！</span></div>
+        <div style="flex: 1">
+          <el-card style="width: 100%">
+            <el-calendar :first-day-of-week="7">
+              <template slot="dateCell" slot-scope="{ data }">
+                <p>{{ data.day.split("-").slice(2).join("-") }}<br/></p>
+                <div
+                    v-for="(item, index) in calendarData"
+                    :key="index"
+                >
+                  <div v-if="data.day == item.day">
+                    {{item.status}}
+                  </div>
                 </div>
-              </div>
-            </template>
-          </el-calendar>
-        </el-card>
-      </div>
-    </el-card>
+              </template>
+            </el-calendar>
+          </el-card>
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>
 

@@ -4,6 +4,12 @@
       <div style="flex: 1;display: flex;align-items: center; justify-content: center">
         <el-form :model="student" :rules="rules" style="width: 75%" ref="registerRef">
           <div style="font-size: 20px; font-weight: bold; text-align: center;margin-bottom: 20px">欢迎注册账号</div>
+<!--          <div style="margin-bottom:20px;display: flex;align-items: center; justify-content: center">-->
+<!--            <el-radio-group v-model="radioTreaty" @change="agreeChange">-->
+<!--              <el-radio label="1">我是学生</el-radio>-->
+<!--              <el-radio label="2">我是教师</el-radio>-->
+<!--            </el-radio-group>-->
+<!--          </div>-->
           <el-form-item prop="id">
             <el-input size="medium" prefix-icon="el-icon-user" placeholder="请输入账号" v-model="student.id"></el-input>
           </el-form-item>
@@ -64,14 +70,21 @@ export default {
           { validator: validRePassword, trigger: 'blur' }
         ],
       },
+      // radioTreaty: this.$route.path === '/login' ? '1' : '2',
     }
   },
   methods: {
+    // agreeChange:function(){
+    //   if(this.radioTreaty === '1')
+    //     this.$router.push('/register')
+    //   else this.$router.push('/registerManger')
+    // },
     register(){
       this.$refs['registerRef'].validate((valid) => {
           if(valid) {
             //验证通过，发送请求
-            this.$request.post('/register',this.student).then(
+            // let path = this.radioTreaty === '1' ? '/register' : '/registerManger';
+            this.$request.post('register',this.student).then(
                 res=>{
                   if (res.code === '200'){
                     this.$router.push('/login');

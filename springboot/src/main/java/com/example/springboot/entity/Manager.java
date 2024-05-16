@@ -14,5 +14,8 @@ public class Manager {
     private String id;
     private String name;
     private String password;
+    private String phone;
+    private String email;
+    private String avatar;
     private String token;
 }

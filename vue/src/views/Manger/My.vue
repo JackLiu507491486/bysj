@@ -1,18 +1,33 @@
 <template>
   <div>
     <el-card style="width: 50%">
-      <el-form ref="formRef" :model="user" :rules="rules" label-width="80px" style="padding-right: 30px">
-        <el-form-item label="原始密码" prop="password">
-          <el-input show-password v-model="user.password"></el-input>
+      <el-form :model="user" label-width="80px" style="padding-right: 30px">
+        <div style="margin: 15px; text-align: center">
+          <el-upload
+              class="avatar-uploader"
+              action="http://localhost:9090/file/upload"
+              :headers="{ token:user.token }"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+          >
+            <img v-if="user.avatar" :src="user.avatar" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </div>
+        <el-form-item label="职工号" prop="ID">
+          <el-input v-model="user.id" disabled></el-input>
         </el-form-item>
-        <el-form-item label="新密码" prop="newPassword">
-          <el-input show-password  v-model="user.newPassword"></el-input>
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="user.name"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="RPassword">
-          <el-input show-password v-model="user.RPassword"></el-input>
+        <el-form-item label="电话" prop="phone">
+          <el-input v-model="user.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="user.email"></el-input>
         </el-form-item>
         <div style="text-align: center; margin-bottom: 20px">
-          <el-button type="primary" @click="update">确  认</el-button>
+          <el-button type="primary" @click="update">保  存</el-button>
         </div>
       </el-form>
     </el-card>
@@ -21,65 +36,75 @@
 
 
 <script>
+import login from "@/views/Login.vue";
+
 export default {
-  name: "Password",
+  name: "My",
   data(){
-    const validatePassword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请确认密码'));
-      }else if(value !== this.user.newPassword){
-        callback(new Error('两次输入密码不一致'));
-      }else{
-        callback();
-      }
-    }
     return{
-      user:JSON.parse(localStorage.getItem('NowUser')||'{}'),
-      rules: {
-        password: [
-          {required: true, message: '请输入原始密码', trigger: 'blur'},
-        ],
-        newPassword: [
-          {required: true, message: '请输入新密码', trigger: 'blur'},
-        ],
-        RPassword: [
-          {validator:validatePassword, required: true, trigger: 'blur'},
-        ],
-      }
+      user:JSON.parse(localStorage.getItem('NowUser')||'{}')
     }
   },
   created() {
 
   },
-  methods: {
+  methods:{
     update(){
-      if (this.user.newPassword.length < 6 || this.user.newPassword.length > 20){
-        this.$message.error('新密码长度应该在6-20位');
-      }else {
-        this.user.password = this.user.newPassword;
-        this.$refs.formRef.validate((valid) => {
-          //保存更改信息
-          this.$request.put('/manger/update', this.user).then(
-              res => {
-                if (res.code === '200') {
-                  //成功更新
-                  this.$message.success("保存成功");
-                  this.$router.push('/login');
-                } else {
-                  this.$message.error(res.msg);
-                }
-              }
-          )
-        })
-      }
+      //保存更改信息
+      this.$request.put('/manger/update',this.user).then(
+          res=>{
+            if (res.code === '200'){
+              //成功更新
+              this.$message.success("保存成功");
+              //更新浏览器缓存
+              localStorage.setItem('NowUser',JSON.stringify(this.user));
+              //触发student界面更新
+              this.$emit("update:my", this.user)
+            }else{
+              this.$message.error(res.msg);
+            }
+          }
+      )
+      //更新浏览器
+    },
+    handleAvatarSuccess(res,file,fileList){
+      //把Uesr头像换成链接
+      this.user.avatar = res.data
     }
   }
 }
 </script>
 
-
 <style scoped>
 /deep/.el-form-item__label{
   font-weight: bold;
+}
+/deep/.el-upload{
+  border-radius:50%;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+  border-radius:50%;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+  border-radius:50%;
 }
 </style>

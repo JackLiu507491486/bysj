@@ -2,8 +2,8 @@
   <div>
     <el-card style="width: 50%">
       <el-form :model="manager" :rules="rules" style="width: 75%" ref="registerRef">
-        <el-form-item prop="id" label="学号">
-          <el-input size="medium" prefix-icon="el-icon-user" placeholder="请输入新的管理员账号" v-model="manager.id"></el-input>
+        <el-form-item prop="id" label="职工号">
+          <el-input size="medium" prefix-icon="el-icon-user" placeholder="请输入新的教师账号" v-model="manager.id"></el-input>
         </el-form-item>
         <el-form-item prop="password" label="密码">
           <el-input size="medium" prefix-icon="el-icon-lock" placeholder="请输入密码" show-password v-model="manager.password"></el-input>

@@ -10,7 +10,7 @@
           <div style="margin-bottom:20px;display: flex;align-items: center; justify-content: center">
             <el-radio-group v-model="radioTreaty" @change="agreeChange">
               <el-radio label="1">我是学生</el-radio>
-              <el-radio label="2">我是管理员</el-radio>
+              <el-radio label="2">我是教师</el-radio>
             </el-radio-group>
           </div>
           <el-form-item prop="id">

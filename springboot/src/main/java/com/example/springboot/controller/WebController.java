@@ -74,6 +74,20 @@ public class WebController {
         return Result.success(student);
     }
 
+//    /**
+//     *
+//     * @param
+//     * @return
+//     */
+//    @AuthAccess
+//    @PostMapping("/registerManger")
+//    public Result register(@RequestBody Manager manager){
+//        if(StrUtil.isBlank(manager.getId()) || StrUtil.isBlank(manager.getPassword())){
+//            return Result.error("输入数据不合法");
+//        }
+//        managerService.register(manager);
+//        return Result.success(manager);
+//    }
 
     /**
      * 重构密码

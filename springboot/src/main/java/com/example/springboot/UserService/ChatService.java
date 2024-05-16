@@ -19,6 +19,7 @@ public class ChatService {
 
     public void insertChat(ChatMessage chatMessage){
         chatMapper.insert(chatMessage);
+        chatMapper.insertAG(chatMessage);
     }
 
     public List<ChatMessage> getChatList(String id) {
